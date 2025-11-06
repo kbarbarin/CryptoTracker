@@ -309,44 +309,6 @@ Les prix se mettent à jour automatiquement toutes les secondes via `PriceUpdate
 - [x] Boutons de vente rapide
 - [x] Support clavier Apple
 
-### Phase 2 (Future)
-- [ ] Intégration API réelle (CoinGecko/Binance)
-- [ ] Authentification utilisateur
-- [ ] Persistance locale (Core Data / SwiftData)
-- [ ] Notifications push
-- [ ] Watchlist personnalisée
-- [ ] Mode Portrait/Paysage
-- [ ] iPad support
-- [ ] Dark/Light mode toggle
-- [ ] Multi-devises (USD, GBP, etc.)
-- [ ] Historique des transactions
-
-## 💡 Points Techniques Importants
-
-### Gestion du Focus et TextFields
-
-Pour éviter les loops de mise à jour entre les champs crypto et fiat :
-```swift
-@FocusState private var focusedField: FocusedField?
-
-.onChange(of: viewModel.fiatAmount) { oldValue, newValue in
-    // Calculer crypto seulement si on tape dans EUR
-    guard focusedField == .fiat || focusedField == nil else { return }
-    viewModel.updateCryptoFromFiatWithoutFormatting()
-}
-```
-
-### Calcul 100% Précis
-
-Pour éviter les erreurs de précision lors de la vente à 100% :
-```swift
-if percentage == 100.0 {
-    amountToSell = ownedAmount  // Exact, pas d'arrondi !
-} else {
-    amountToSell = ownedAmount * (percentage / 100.0)
-}
-```
-
 ### UserDefaults Persistance
 
 Le portefeuille est sauvegardé automatiquement dans UserDefaults :
